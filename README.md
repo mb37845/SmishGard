@@ -29,9 +29,9 @@ The core model was trained on a diverse dataset of over 10,000 messages to ensur
 * **Architecture:** DistilBERT (Transformer-based)
 * **Optimizer:** AdamW
 * **Key Achievement:** Significantly reduced false negatives compared to traditional keyword-based filtering, providing a more reliable defense against sophisticated phishing tactics.
-
 ---
 Note: Due to file size limitations, the model.safetensors file is excluded from this repository. 
 
+---
 Bash
 python app.py

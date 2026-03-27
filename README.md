@@ -4,7 +4,7 @@
 
 ---
 ## 📺 Demo
-[Optional: [Insert GIF or Video Link Here](https://www.canva.com/design/DAHFKdDZt7M/cfulWmPvMSzYtAh_3WYr6Q/watch?utm_content=DAHFKdDZt7M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0196e50f75)]
+[Optional: [SmishGuard Application Walkthrough](https://www.canva.com/design/DAHFKdDZt7M/cfulWmPvMSzYtAh_3WYr6Q/watch?utm_content=DAHFKdDZt7M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0196e50f75)]
 
 ---
 ## 🚀 Key Features

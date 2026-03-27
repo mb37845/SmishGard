@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}Smishing Quiz - SmishGuard{% endblock %}
+
+{% block content %}
+<section class="quiz-hero">
+    <div class="container">
+        <h1>Smishing Detection Quiz</h1>
+        <p>Test your ability to spot SMS phishing attacks. Can you beat the AI?</p>
+    </div>
+</section>
+
+<section class="quiz-section">
+    <div class="container">
+        <div class="quiz-container">
+            <!-- Level Selection -->
+            <div id="levelSelection" class="level-selection">
+                <div class="intro-content">
+                    <h2>Choose Your Difficulty Level</h2>
+                    <p>Select a difficulty level to start the quiz. Each level has different types of smishing attempts.</p>
+                    
+                    <div class="level-cards">
+                        <div class="level-card" onclick="selectLevel('beginner')">
+                            <div class="level-icon">🟢</div>
+                            <h3>Beginner</h3>
+                            <p>Easy to spot smishing attempts with obvious red flags</p>
+                            <ul>
+                                <li>5 questions</li>
+                                <li>Obvious suspicious links</li>
+                                <li>Clear urgency patterns</li>
+                            </ul>
+                            <div class="level-difficulty">Easy</div>
+                        </div>
+                        
+                        <div class="level-card" onclick="selectLevel('intermediate')">
+                            <div class="level-icon">🟡</div>
+                            <h3>Intermediate</h3>
+                            <p>Moderate difficulty with some tricky examples</p>
+                            <ul>
+                                <li>5 questions</li>
+                                <li>Better disguised links</li>
+                                <li>Mixed legitimate and fake messages</li>
+                            </ul>
+                            <div class="level-difficulty">Medium</div>
+                        </div>
+                        
+                        <div class="level-card" onclick="selectLevel('expert')">
+                            <div class="level-icon">🔴</div>
+                            <h3>Expert</h3>
+                            <p>Advanced smishing attempts that are hard to detect</p>
+                            <ul>
+                                <li>5 questions</li>
+                                <li>Sophisticated social engineering</li>
+                                <li>Very convincing fake messages</li>
+                            </ul>
+                            <div class="level-difficulty">Hard</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Intro -->
+            <div id="quizIntro" class="quiz-intro hidden">
+                <div class="intro-content">
+                    <h2>Ready to Test Your Skills?</h2>
+                    <p>You'll be shown real SMS examples. Identify which are legitimate and which are smishing attempts.</p>
+                    <div class="quiz-stats-overview">
+                        <div class="stat">
+                            <span class="number" id="questionsCount">5</span>
+                            <span class="label">Questions</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number" id="levelName">Beginner</span>
+                            <span class="label">Difficulty</span>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button onclick="startQuiz()" class="cta-button large">Start Quiz</button>
+                        <button onclick="goBackToLevels()" class="cta-button secondary">Change Level</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Quiz -->
+            <div id="activeQuiz" class="active-quiz hidden">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
+                        <span class="level-badge" id="currentLevelBadge">Beginner</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-card">
+                    <h3>Is this message legitimate or a smishing attempt?</h3>
+                    
+                    <div class="message-display">
+                        <div class="message-bubble" id="quizMessage">
+                            Loading question...
+                        </div>
+                    </div>
+
+                    <div class="quiz-options">
+                        <button onclick="answerQuiz(true)" class="quiz-option legitimate">
+                            <span class="option-icon">✅</span>
+                            <span class="option-text">Legitimate Message</span>
+                        </button>
+                        <button onclick="answerQuiz(false)" class="quiz-option smishing">
+                            <span class="option-icon">🚩</span>
+                            <span class="option-text">Smishing Attempt</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quiz-stats">
+                    <div class="score-display">
+                        Current Score: <span id="quizScore">0</span> points
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Feedback -->
+            <div id="quizFeedback" class="quiz-feedback hidden">
+                <div class="feedback-content" id="feedbackContent">
+                    <!-- Feedback will be inserted here -->
+                </div>
+                <button onclick="nextQuestion()" class="next-btn">Next Question</button>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quizResults" class="quiz-results hidden">
+                <div class="results-content">
+                    <h2>Quiz Complete! 🎉</h2>
+                    <div class="score-card">
+                        <div class="final-score">
+                            <span id="finalScore">0</span>/<span id="maxScore">5</span>
+                        </div>
+                        <div class="score-message" id="scoreMessage">
+                            <!-- Score message will be inserted here -->
+                        </div>
+                    </div>
+                    <div class="results-breakdown">
+                        <h4>Performance Insights</h4>
+                        <div class="insight" id="performanceInsight">
+                            <!-- Insights will be inserted here -->
+                        </div>
+                    </div>
+                    <div class="results-actions">
+                        <button onclick="restartQuiz()" class="cta-button">Try Again</button>
+                        <button onclick="selectNewLevel()" class="cta-button secondary">New Level</button>
+                        <a href="{{ url_for('learn') }}" class="cta-button secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Quiz questions for different levels
+const quizQuestions = {
+    beginner: [
+        {
+            "message": "URGENT: Your bank account will be SUSPENDED! Click now: http://bank-secure-update.com",
+            "answer": false,
+            "explanation": "This uses excessive urgency (URGENT, SUSPENDED, !) and a suspicious link. Real banks use their official domains.",
+            "flags": ["Suspicious URL", "Urgency keywords", "Financial threat", "Excessive punctuation"]
+        },
+        {
+            "message": "You won $1000 Walmart gift card! Claim: http://free-gift-walmart.com",
+            "answer": false,
+            "explanation": "Too good to be true offers are common smishing tactics. Legitimate giveaways don't work this way.",
+            "flags": ["Suspicious offer", "Suspicious URL", "Prize scam pattern"]
+        },
+        {
+            "message": "Amazon: Your package #12345 will arrive tomorrow. Track at: https://amazon.com/tracking",
+            "answer": true,
+            "explanation": "Uses legitimate Amazon domain, provides specific tracking number, and no urgency pressure.",
+            "flags": ["Legitimate domain", "Specific tracking info", "No urgency"]
+        },
+        {
+            "message": "VERIFY YOUR ACCOUNT NOW: http://paypal-security.com or account will be DELETED!",
+            "answer": false,
+            "explanation": "Creates false urgency with threats and uses a fake PayPal domain. Real companies don't threaten account deletion.",
+            "flags": ["Fake company domain", "Urgency threats", "Account deletion scare"]
+        },
+        {
+            "message": "Netflix: Your monthly subscription has been renewed. Amount: $15.99 charged to your card.",
+            "answer": true,
+            "explanation": "Standard service notification with specific amount, no links, and no urgency.",
+            "flags": ["Service notification", "No links", "No urgency"]
+        }
+    ],
+    intermediate: [
+        {
+            "message": "Apple: Unusual login detected from new device. Review activity: http://apple-id-security.com",
+            "answer": false,
+            "explanation": "Uses a fake Apple domain (should be apple.com). Real security alerts use official domains.",
+            "flags": ["Fake company domain", "Security alert scare", "Suspicious link"]
+        },
+        {
+            "message": "FedEx: Delivery scheduled for today 2-4 PM. Track: https://fedex.com/track/7890123456",
+            "answer": true,
+            "explanation": "Legitimate FedEx domain with specific tracking number and reasonable timeframe.",
+            "flags": ["Legitimate domain", "Specific tracking", "Reasonable timeframe"]
+        },
+        {
+            "message": "Your Google account needs immediate verification: http://google-secure-login.com to prevent suspension",
+            "answer": false,
+            "explanation": "Fake Google domain and creates false urgency about account suspension.",
+            "flags": ["Fake company domain", "False urgency", "Account suspension threat"]
+        },
+        {
+            "message": "USPS: Package delivery attempted. Schedule redelivery: https://usps.com/redelivery/123456789",
+            "answer": true,
+            "explanation": "Legitimate USPS domain with specific redelivery process, no urgency.",
+            "flags": ["Legitimate domain", "Standard procedure", "No urgency"]
+        },
+        {
+            "message": "WhatsApp: Your account will expire in 24 hours. Verify: http://whatsapp-verification.net",
+            "answer": false,
+            "explanation": "WhatsApp accounts don't expire. Fake domain and false urgency.",
+            "flags": ["Fake service claim", "Suspicious domain", "False urgency"]
+        }
+    ],
+    expert: [
+        {
+            "message": "Chase: We noticed unusual activity on your card ending in 3412. Is this you? Reply YES or NO",
+            "answer": false,
+            "explanation": "Real banks never ask you to verify by replying YES/NO to suspicious texts. They call from verified numbers.",
+            "flags": ["Phishing for engagement", "No legitimate links", "Social engineering"]
+        },
+        {
+            "message": "Your Microsoft security code is: 458392. Do not share this code with anyone.",
+            "answer": true,
+            "explanation": "Legitimate 2FA code message - no links, no requests for action, just information.",
+            "flags": ["2FA code", "No links", "Information only"]
+        },
+        {
+            "message": "DocuSign: Please review and sign the document from John Smith: https://docusign.net/s/abc123",
+            "answer": false,
+            "explanation": "DocuSign uses docusign.com, not .net. Sophisticated domain spoofing.",
+            "flags": ["Domain spoofing", "Slightly wrong domain", "Business context"]
+        },
+        {
+            "message": "US Bank: Your statement is ready. View: https://usbank.com/statements (not a real link for demo)",
+            "answer": true,
+            "explanation": "Legitimate bank communication with official domain and no urgency.",
+            "flags": ["Legitimate domain", "Standard service", "No urgency"]
+        },
+        {
+            "message": "Your Facebook friend request from Sarah Johnson needs approval: http://facebook-connect.me",
+            "answer": false,
+            "explanation": "Facebook uses facebook.com, not other domains. Sophisticated social engineering.",
+            "flags": ["Fake social media domain", "Social engineering", "Trust exploitation"]
+        }
+    ]
+};
+
+let currentQuizIndex = 0;
+let quizScore = 0;
+let currentLevel = 'beginner';
+let currentQuestions = [];
+
+function selectLevel(level) {
+    currentLevel = level;
+    const levelSelection = document.getElementById('levelSelection');
+    const quizIntro = document.getElementById('quizIntro');
+    const levelName = document.getElementById('levelName');
+    
+    // Set level name based on selection
+    const levelNames = {
+        'beginner': 'Beginner',
+        'intermediate': 'Intermediate', 
+        'expert': 'Expert'
+    };
+    
+    if (levelName) {
+        levelName.textContent = levelNames[level];
+    }
+    
+    if (levelSelection) levelSelection.classList.add('hidden');
+    if (quizIntro) quizIntro.classList.remove('hidden');
+    
+    // Set the questions for the selected level
+    currentQuestions = quizQuestions[level];
+}
+
+function goBackToLevels() {
+    const levelSelection = document.getElementById('levelSelection');
+    const quizIntro = document.getElementById('quizIntro');
+    
+    if (levelSelection) levelSelection.classList.remove('hidden');
+    if (quizIntro) quizIntro.classList.add('hidden');
+}
+
+function startQuiz() {
+    const quizIntro = document.getElementById('quizIntro');
+    const activeQuiz = document.getElementById('activeQuiz');
+    const currentLevelBadge = document.getElementById('currentLevelBadge');
+    
+    if (currentLevelBadge) {
+        currentLevelBadge.textContent = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
+    }
+    
+    if (quizIntro) quizIntro.classList.add('hidden');
+    if (activeQuiz) activeQuiz.classList.remove('hidden');
+    
+    // Reset quiz state
+    currentQuizIndex = 0;
+    quizScore = 0;
+    
+    updateQuizProgress();
+    loadQuizQuestion();
+}
+
+function loadQuizQuestion() {
+    const quizMessage = document.getElementById('quizMessage');
+    const currentQuestion = document.getElementById('currentQuestion');
+    
+    if (quizMessage && currentQuizIndex < currentQuestions.length) {
+        quizMessage.textContent = currentQuestions[currentQuizIndex].message;
+    }
+    
+    if (currentQuestion) {
+        currentQuestion.textContent = currentQuizIndex + 1;
+    }
+}
+
+function updateQuizProgress() {
+    const progressFill = document.getElementById('progressFill');
+    const totalQuestions = document.getElementById('totalQuestions');
+    const questionsCount = document.getElementById('questionsCount');
+    
+    if (progressFill) {
+        progressFill.style.width = `${((currentQuizIndex) / currentQuestions.length) * 100}%`;
+    }
+    
+    if (totalQuestions) {
+        totalQuestions.textContent = currentQuestions.length;
+    }
+    
+    if (questionsCount) {
+        questionsCount.textContent = currentQuestions.length;
+    }
+}
+
+function answerQuiz(isLegitimate) {
+    const currentQuestion = currentQuestions[currentQuizIndex];
+    const isCorrect = (isLegitimate === currentQuestion.answer);
+    const feedback = document.getElementById('quizFeedback');
+    const feedbackContent = document.getElementById('feedbackContent');
+    const activeQuiz = document.getElementById('activeQuiz');
+
+    if (isCorrect) {
+        quizScore++;
+    }
+
+    if (feedbackContent) {
+        feedbackContent.innerHTML = `
+            <div class="feedback-header ${isCorrect ? 'correct' : 'incorrect'}">
+                <h3>${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</h3>
+            </div>
+            <div class="feedback-body">
+                <p><strong>Explanation:</strong> ${currentQuestion.explanation}</p>
+                <div class="detected-flags">
+                    <strong>Detection Flags:</strong>
+                    <div class="flags">
+                        ${currentQuestion.flags.map(flag => `<span class="flag-tag">${flag}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    if (feedback) feedback.classList.remove('hidden');
+    if (activeQuiz) activeQuiz.classList.add('hidden');
+}
+
+function nextQuestion() {
+    currentQuizIndex++;
+    const feedback = document.getElementById('quizFeedback');
+    const activeQuiz = document.getElementById('activeQuiz');
+    const quizScoreElement = document.getElementById('quizScore');
+
+    if (feedback) feedback.classList.add('hidden');
+    if (activeQuiz) activeQuiz.classList.remove('hidden');
+    
+    if (quizScoreElement) {
+        quizScoreElement.textContent = quizScore;
+    }
+
+    if (currentQuizIndex < currentQuestions.length) {
+        updateQuizProgress();
+        loadQuizQuestion();
+    } else {
+        showQuizResults();
+    }
+}
+
+function showQuizResults() {
+    const activeQuiz = document.getElementById('activeQuiz');
+    const quizResults = document.getElementById('quizResults');
+    const finalScore = document.getElementById('finalScore');
+    const maxScore = document.getElementById('maxScore');
+    const scoreMessage = document.getElementById('scoreMessage');
+    const performanceInsight = document.getElementById('performanceInsight');
+
+    if (activeQuiz) activeQuiz.classList.add('hidden');
+    if (quizResults) quizResults.classList.remove('hidden');
+    
+    if (finalScore) finalScore.textContent = quizScore;
+    if (maxScore) maxScore.textContent = currentQuestions.length;
+
+    const percentage = (quizScore / currentQuestions.length) * 100;
+    
+    if (scoreMessage) {
+        if (percentage >= 80) {
+            scoreMessage.textContent = "Excellent! You're a smishing detection expert! 🏆";
+        } else if (percentage >= 60) {
+            scoreMessage.textContent = "Good job! You have solid smishing detection skills. 📚";
+        } else {
+            scoreMessage.textContent = "Keep learning! Review the examples to improve your skills. 💡";
+        }
+    }
+
+    if (performanceInsight) {
+        performanceInsight.innerHTML = `
+            <p>You correctly identified ${quizScore} out of ${currentQuestions.length} messages at ${currentLevel} level.</p>
+            <p>${percentage >= 80 ? 
+                'Your ability to spot smishing attempts is impressive! Try a harder level.' :
+                percentage >= 60 ?
+                'You have a good foundation. Practice more or try the next level.' :
+                'Spend some time on our Learn page to understand common smishing patterns better.'
+            }</p>
+        `;
+    }
+}
+
+function restartQuiz() {
+    currentQuizIndex = 0;
+    quizScore = 0;
+    
+    const quizResults = document.getElementById('quizResults');
+    const activeQuiz = document.getElementById('activeQuiz');
+    
+    if (quizResults) quizResults.classList.add('hidden');
+    if (activeQuiz) activeQuiz.classList.remove('hidden');
+    
+    const quizScoreElement = document.getElementById('quizScore');
+    if (quizScoreElement) quizScoreElement.textContent = '0';
+    
+    updateQuizProgress();
+    loadQuizQuestion();
+}
+
+function selectNewLevel() {
+    const quizResults = document.getElementById('quizResults');
+    const levelSelection = document.getElementById('levelSelection');
+    
+    if (quizResults) quizResults.classList.add('hidden');
+    if (levelSelection) levelSelection.classList.remove('hidden');
+}
+
+// Initialize quiz when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Quiz page loaded with multiple difficulty levels');
+});
+</script>
+{% endblock %}

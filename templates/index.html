@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>AI-Powered Smishing Detection</h1>
+        <p>Protect yourself from SMS phishing attacks using advanced Machine Learning</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('analysis') }}" class="cta-button">Try AI Analyzer</a>
+            <a href="{{ url_for('quiz') }}" class="cta-button secondary">Test Your Knowledge</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div class="message received">
+                    <span class="sender">Bank Alerts</span>
+                    <span class="text">Your account will be suspended. Verify now: http://bank-secure.com</span>
+                    <span class="warning">⚠️ Smishing Detected!</span>
+                </div>
+                <div class="message sent">
+                    <span class="text">Thanks for the alert! I'll check directly with my bank.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <h2>How SmishGuard Protects You</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>ML-Powered Detection</h3>
+                <p>Advanced algorithms analyze message patterns using DistilBERT</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-time Analysis</h3>
+                <p>Instant detection with confidence scoring and detailed threat breakdown</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Educational Focus</h3>
+                <p>Learn to identify smishing attempts and improve your cybersecurity awareness</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

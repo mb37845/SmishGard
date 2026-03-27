@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Learn About Smishing - SmishGuard{% endblock %}
+
+{% block content %}
+<section class="learn-hero">
+    <div class="container">
+        <h1>Learn About Smishing</h1>
+        <p>Understand SMS phishing threats and how to protect yourself</p>
+    </div>
+</section>
+
+<section class="learn-content">
+    <div class="container">
+        <div class="learn-grid">
+            <!-- What is Smishing -->
+            <div class="learn-card main-card">
+                <h2>What is Smishing?</h2>
+                <p>Smishing (SMS phishing) is a type of cyberattack where criminals send fraudulent text messages to trick you into revealing personal information, clicking malicious links, or downloading harmful software.</p>
+            </div>
+
+            <!-- Common Smishing Types -->
+            <div class="learn-card">
+                <h3>🎯 Common Smishing Types</h3>
+                <div class="threat-types">
+                    <div class="threat-type">
+                        <h4>🏦 Bank Fraud</h4>
+                        <p>"Your account has been suspended. Click here to verify."</p>
+                    </div>
+                    <div class="threat-type">
+                        <h4>📦 Delivery Scams</h4>
+                        <p>"Your package can't be delivered. Update your address."</p>
+                    </div>
+                    <div class="threat-type">
+                        <h4>🎁 Prize Scams</h4>
+                        <p>"You've won a prize! Claim it now by clicking this link."</p>
+                    </div>
+                    <div class="threat-type">
+                        <h4>🔐 Account Alerts</h4>
+                        <p>"Your social media account needs verification."</p>
+                    </div>
+                    <div class="threat-type">
+                        <h4>💻 Tech Support Scams</h4>
+                        <p>"VIRUS DETECTED! Install this app immediately or call our support hotline to secure your device."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Red Flags -->
+            <div class="learn-card">
+                <h3>🚩 Smishing Red Flags</h3>
+                <div class="red-flags-list">
+                    <div class="red-flag">
+                        <span class="flag-icon">🔗</span>
+                        <div class="flag-content">
+                            <strong>Suspicious URLs</strong>
+                            <p>Links that don't match the claimed organization</p>
+                        </div>
+                    </div>
+                    <div class="red-flag">
+                        <span class="flag-icon">⏰</span>
+                        <div class="flag-content">
+                            <strong>Urgency & Pressure</strong>
+                            <p>Messages creating false urgency to act quickly</p>
+                        </div>
+                    </div>
+                    <div class="red-flag">
+                        <span class="flag-icon">💰</span>
+                        <div class="flag-content">
+                            <strong>Financial Requests</strong>
+                            <p>Asking for banking or payment information</p>
+                        </div>
+                    </div>
+                    <div class="red-flag">
+                        <span class="flag-icon">📱</span>
+                        <div class="flag-content">
+                            <strong>Unknown Senders</strong>
+                            <p>Messages from numbers you don't recognize</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protection Tips -->
+            <div class="learn-card">
+                <h3>🛡️ Protection Tips</h3>
+                <div class="protection-tips">
+                    <div class="tip">
+                        <h4>Verify Directly</h4>
+                        <p>Contact organizations using official numbers/websites</p>
+                    </div>
+                    <div class="tip">
+                        <h4>Don't Click Links</h4>
+                        <p>Avoid clicking links in suspicious messages</p>
+                    </div>
+                    <div class="tip">
+                        <h4>Check URLs</h4>
+                        <p>Hover over links to see the actual destination</p>
+                    </div>
+                    <div class="tip">
+                        <h4>Use AI Tools</h4>
+                        <p>Leverage tools like SmishGuard for analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real Examples -->
+            <div class="learn-card full-width">
+                <h3>📝 Real Smishing Examples</h3>
+                <div class="examples-grid">
+                    <div class="example bad">
+                        <div class="example-header">
+                            <span class="example-label smishing">🚩 Smishing</span>
+                        </div>
+                        <div class="example-content">
+                            <p>"ALERT: Your bank account has been locked. Call now to avoid closure."</p>
+                            <div class="example-analysis">
+                                <strong>Why it's suspicious:</strong> False urgency , financial threat
+                            </div>
+                        </div>
+                    </div>
+                    <div class="example good">
+                        <div class="example-header">
+                            <span class="example-label legitimate">✅ Legitimate</span>
+                        </div>
+                        <div class="example-content">
+                            <p>"Amazon: Your package will arrive today by 8 PM. Track at: https://amazon.com/track/12345"</p>
+                            <div class="example-analysis">
+                                <strong>Why it's legitimate:</strong> Legitimate domain, specific tracking info, no urgency
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="learn-cta">
+            <h2>Ready to Test Your Knowledge?</h2>
+            <p>Take our interactive quiz to see if you can spot smishing attempts</p>
+            <a href="{{ url_for('quiz') }}" class="cta-button">Start Quiz</a>
+        </div>
+
+        <!-- References Section -->
+        <div class="references-section">
+            <h3>📚 References</h3>
+            <div class="references-content">
+                <p class="references-intro">The information on this page has been compiled from :</p>
+                <ul class="references-list">
+                    <li>Federal Communications Commission (FCC). "Avoid the Temptation of Smishing Scams." <a href="https://www.fcc.gov/avoid-temptation-smishing-scams" target="_blank" rel="noopener">fcc.gov</a></li>
+
+                    <li>Fortinet. "What is Smishing? SMS Phishing Definition and Protection." <a href="https://www.fortinet.com/resources/cyberglossary/smishing" target="_blank" rel="noopener">fortinet.com</a></li>
+
+                    <li>Zscaler. "What is Smishing (SMS Phishing)?" <a href="https://www.zscaler.com/zpedia/what-is-smishing-sms-phishing" target="_blank" rel="noopener">zscaler.com</a></li>
+                    
+                    <li>Cynet. "5 Types of Smishing Attacks and 5 Ways to Prevent Them." <a href="https://www.cynet.com/cybersecurity/5-types-of-smishing-attacks-and-5-ways-to-prevent-them/" target="_blank" rel="noopener">cynet.com</a></li>
+                </ul>
+                <p class="references-note">For detailed citations and additional resources, please refer to our project documentation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

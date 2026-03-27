@@ -3,7 +3,10 @@
 **SmishGuard** is an advanced mobile security solution designed to combat the rising threat of "Smishing" (SMS Phishing). Developed as a Final Year Project at **Sultan Qaboos University**, this system leverages state-of-the-art Natural Language Processing (NLP) to classify malicious messages and provide real-time URL analysis.
 
 ---
+## 📺 Demo
+[Optional: [Insert GIF or Video Link Here](https://www.canva.com/design/DAHFKdDZt7M/cfulWmPvMSzYtAh_3WYr6Q/watch?utm_content=DAHFKdDZt7M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h0196e50f75)]
 
+---
 ## 🚀 Key Features
 
 * **Intelligent Classification:** Uses a fine-tuned **DistilBERT** model to achieve high accuracy in detecting deceptive linguistic patterns.

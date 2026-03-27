@@ -1,29 +1,37 @@
-SmishGuard: AI-Powered Smishing Detection & Awareness
-SmishGuard is an advanced mobile security solution designed to combat the rising threat of "Smishing" (SMS Phishing). Developed as a Final Year Project at Sultan Qaboos University, this system leverages state-of-the-art Natural Language Processing (NLP) to classify malicious messages and provide real-time URL analysis.
+# SmishGuard: AI-Powered Smishing Detection & Awareness
 
-🚀 Key Features
-Intelligent Classification: Uses a fine-tuned DistilBERT model to achieve high accuracy in detecting deceptive linguistic patterns.
+**SmishGuard** is an advanced mobile security solution designed to combat the rising threat of "Smishing" (SMS Phishing). Developed as a Final Year Project at **Sultan Qaboos University**, this system leverages state-of-the-art Natural Language Processing (NLP) to classify malicious messages and provide real-time URL analysis.
 
-Real-time URL Inspection: Integrated with the VirusTotal API to scan links within messages for malicious signatures.
+---
 
-Bilingual Support: Optimized to process and analyze both English and Arabic smishing attempts.
+## 🚀 Key Features
 
-Educational Hub: Includes a built-in awareness module with interactive quizzes to educate users on mobile security best practices.
+* **Intelligent Classification:** Uses a fine-tuned **DistilBERT** model to achieve high accuracy in detecting deceptive linguistic patterns.
+* **Real-time URL Inspection:** Integrated with the **VirusTotal API** to scan links within messages for malicious signatures.
+* **Bilingual Support:** Optimized to process and analyze both English and Arabic smishing attempts.
+* **Educational Hub:** Includes a built-in awareness module with interactive quizzes to educate users on mobile security best practices.
 
-🛠️ Tech Stack
-Backend: Python, Flask
+---
 
-Machine Learning: Transformers (Hugging Face), PyTorch, Scikit-learn
+## 🛠️ Tech Stack
 
-Analysis: VirusTotal API Integration
+* **Backend:** Python, Flask
+* **Machine Learning:** Transformers (Hugging Face), PyTorch, Scikit-learn
+* **Analysis:** VirusTotal API Integration
+* **Frontend:** HTML5, CSS3, JavaScript (Responsive Design)
 
-Frontend: HTML5, CSS3, JavaScript (Responsive Design)
+---
 
-📊 Performance & Methodology
-The core model was trained on a diverse dataset of over 10,000 messages.
+## 📊 Performance & Methodology
 
-Architecture: DistilBERT (Transformer-based)
+The core model was trained on a diverse dataset of over 10,000 messages to ensure robust detection across various attack vectors.
 
-Optimizer: AdamW
+* **Architecture:** DistilBERT (Transformer-based)
+* **Optimizer:** AdamW
+* **Key Achievement:** Significantly reduced false negatives compared to traditional keyword-based filtering, providing a more reliable defense against sophisticated phishing tactics.
 
-Key Achievement: Significantly reduced false negatives compared to traditional keyword-based filtering.
+---
+Note: Due to file size limitations, the model.safetensors file is excluded from this repository. 
+
+Bash
+python app.py
